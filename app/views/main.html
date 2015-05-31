@@ -1,0 +1,79 @@
+
+
+
+
+<div class="container">
+    <div class="row row-centered">
+
+  <h1  ng-hide="ready" class="text-center">deep Search</h1>
+ <h2  ng-show="ready" class="text-center">deep Search</h2>
+            <form class="form-inline global-search" role="form">
+                <div class="form-group">
+
+                    <label class="sr-only" for="">Enter search terms</label>
+                    <input type="text" ng-model="query.query" class="form-control" id="k" name="k" placeholder="Search...">
+                    <input id="cn" name="cn" type="hidden" value="false" />
+                </div>
+                <button type="submit" id="s" class="btn btn-default" ng-click="search(query)" ><span class="glyphicon glyphicon-search"></span>
+
+                </button> 
+
+
+ <a href="" ng-click="advanced()">Advanced settings</a>
+    
+  <div class="wrapper" ng-show="show_advanced">
+  
+
+  <label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="vsm" ng-model="query.type_search"> Vector Space Model (VSM)
+</label>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="vsm_pgm" ng-model="query.type_search" > VSM + PageRank
+</label>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="vsm_atm" ng-model="query.type_search" > VSM + AnchorText
+</label>
+<label class="radio-inline active">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="linear" ng-model="query.type_search" checked="" > All of it.
+</label>
+
+
+
+
+  </div>
+</form>
+
+</div>
+
+
+
+
+          
+
+
+                
+
+ <div class="wrapper" style="position:absolute; top: 10px; right: 2%;">
+  <button type="button" class="btn btn-primary" ng-click="about()" ng-hide="show_about">About our search</button>
+    
+  <div class="wrapper">
+  <p ng-show="show_about" >Create by <a href="https://github.com/felipemoraes">Felipe Moraes</a>. Code licensed under <a rel="license" href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a>.</p>
+  </div>
+  </div>
+
+    </div>
+
+<div ng-model = "result" dir-paginate="hit in result.hits|itemsPerPage: pageSize" current-page="currentPage" >
+  
+    <h3><a href="{{hit.url}}">{{hit.title}}</a></h3>
+     <p style="color:green">{{hit.url}}</p>
+
+</div>
+
+  <div class="other-controller">
+          <div class="text-center">
+    <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="views/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  </div>
+
+
