@@ -42,24 +42,34 @@ angular.module('webSearchApp')
     		query.type_search = "linear";
 
     	}
+    	var ws=new WebSocket("ws://localhost:8080/search");
+		//var ws=new WebSocket("ws://54.207.104.21:80/search");
+		ws.onopen = function () {
+			 ws.send(JSON.stringify(query));
+		}
 
-	var ws=new WebSocket("ws://54.207.104.21:80/search");
-	ws.onopen = function () {
-		 ws.send(JSON.stringify(query));
+		ws.onmessage=function(evt){
+			
+			$scope.result = JSON.parse((evt.data));
+		
+			for (var i = 0; i < $scope.result.hits.length; i++) {
+				try {
+				 	$scope.result.hits[i].title = utf8.decode($scope.result.hits[i].title);
+				}catch(err) {
+					console.log("Error parsing title " + $scope.result.hits[i].title );
+				}
+			};
+			$scope.ready = true;
+			$scope.$apply();
+			ws.close();
+		};
+		ws.onclose = function(){
+		}
 	}
-
-	ws.onmessage=function(evt){
-
-		$scope.result = JSON.parse((evt.data));
-		$scope.ready = true;
-		$scope.$apply();
-	};
-
 	$scope.pageChangeHandler = function(num) {
       console.log('search page changed to ' + num);
   	};
 
 
 	 
-    }
   });
